@@ -19,7 +19,6 @@ def exercise2():
     
     alpha = 0.01
     
-    1.5
     #Check and calculate activation_function 
     if activation_function == 'sigmoid':
         result = 1 / (1 + math.exp(-x))
