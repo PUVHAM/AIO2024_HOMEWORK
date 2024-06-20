@@ -1,29 +1,38 @@
 
 class Stack:
     def __init__(self, capacity):
-        self.capacity = capacity
-        self.lst = []
+        self.__capacity = capacity
+        self.__lst = []
         
     def is_empty(self):
-        if self.lst == []:
+        if self.__lst == []:
             return True
         else:
             return False
         
     def is_full(self):
-        if len(self.lst) == self.capacity:
+        if len(self.__lst) == self.__capacity:
             return True
         else:
             return False
         
     def pop(self):
-        return self.lst.pop(-1)
+        if self.is_empty():
+            print("Underflow: Do nothing!")
+        else:
+            return self.__lst.pop(-1)
     
     def push(self, value):
-        self.lst.append(value)
+        if self.is_full():
+            print("Overflow: Do nothing!")
+        else:
+            self.__lst.append(value)
         
     def top(self):
-        return self.lst[-1]
+        if self.is_empty():
+            print("Stack is empty!")
+            return
+        return self.__lst[-1]
     
 #Testcases
 stack1 = Stack(capacity=5)
