@@ -1,31 +1,38 @@
+from abc import ABC, abstractmethod
 
 # (a) 
-class Student:
-    def __init__(self, name, yob, grade):
-        self.name = name
-        self.yob = yob
-        self.grade = grade
+class Person(ABC):
+    def __init__(self, name: str, yob: int):
+        self._name = name
+        self._yob = yob
         
+    @abstractmethod
     def describe(self):
-        print(f"Student - Name: {self.name} - YoB: {self.yob} - Grade: {self.grade}")
-        
-class Doctor:
-    def __init__(self, name, yob, specialist):
-        self.name = name
-        self.yob = yob
-        self.specialist = specialist
-        
-    def describe(self):
-        print(f"Doctor - Name: {self.name} - YoB: {self.yob} - Specialist: {self.specialist}")
+        pass 
 
-class Teacher:
-    def __init__(self, name, yob, subject):
-        self.name = name
-        self.yob = yob
-        self.subject = subject
+class Student(Person):
+    def __init__(self, name: str, yob: int, grade: str):
+        super().__init__(name, yob)
+        self.__grade = grade
         
     def describe(self):
-        print(f"Teacher - Name: {self.name} - YoB: {self.yob} - Subject: {self.subject}")
+        print(f"Student - Name: {self._name} - YoB: {self._yob} - Grade: {self.__grade}")
+        
+class Doctor(Person):
+    def __init__(self, name: str, yob: int, specialist: str):
+        super().__init__(name, yob)
+        self.__specialist = specialist
+    
+    def describe(self):
+        print(f"Doctor - Name: {self._name} - YoB: {self._yob} - Specialist: {self.__specialist}")
+
+class Teacher(Person):
+    def __init__(self, name: str, yob: int, subject: str):
+        super().__init__(name, yob)
+        self.__subject = subject
+        
+    def describe(self):
+        print(f"Teacher - Name: {self._name} - YoB: {self._yob} - Subject: {self.__subject}")
 
 # (a) testcases   
 student1 = Student(name="studentA", yob=2010, grade="7")
@@ -38,30 +45,30 @@ doctor1.describe()
 # (b) & (c) & (d) & (e)
 class Ward:
     def __init__(self, name):
-        self.name = name
-        self.lst = []
+        self.__name = name
+        self.__lst = []
         
     def add_person(self, person):
-        self.lst.append(person)
+        self.__lst.append(person)
         
     def describe(self):
-        print(f"Ward Name: {self.name}")
-        for person in self.lst:
+        print(f"Ward Name: {self.__name}")
+        for person in self.__lst:
             person.describe()
             
     def count_doctor(self):
         count = 0
-        for person in self.lst:
+        for person in self.__lst:
             if (isinstance(person, Doctor)):
                 count += 1
         return count
     
     def sort_age(self):
-        self.lst.sort(key=lambda x: x.yob, reverse=True)
+        self.__lst.sort(key=lambda x: x._yob, reverse=True)
     
     def compute_average(self):
-        count = sum(1 for person in self.lst if isinstance(person, Teacher))
-        total = sum(person.yob for person in self.lst if isinstance(person, Teacher))
+        count = sum(1 for person in self.__lst if isinstance(person, Teacher))
+        total = sum(person._yob for person in self.__lst if isinstance(person, Teacher))
                 
         return total / count
         
