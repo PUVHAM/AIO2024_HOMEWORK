@@ -1,6 +1,6 @@
 import time
 import streamlit as st 
-from levenshtein_distance import levenshtein_distance
+from Week_2 import levenshtein_distance
 from load_file import load_vocab
 
 
