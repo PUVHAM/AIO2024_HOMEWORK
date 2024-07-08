@@ -5,7 +5,14 @@ arr = np.arange(0, 10, 1)
 print(arr)
 
 # Question 2: How to create a 3x3 boolean array with all values as True
+# Method 1
 arr = np.full((3, 3), fill_value=True, dtype=bool)
+print(arr)
+# Method 2
+arr = np.ones((3, 3)) > 0
+print(arr)
+# Method 3
+arr = np.ones((3, 3), dtype=bool)
 print(arr)
 
 # Question 3: Result of the following code:
