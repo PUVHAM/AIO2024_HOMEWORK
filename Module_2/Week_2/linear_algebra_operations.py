@@ -42,11 +42,6 @@ def matrix_multi_matrix(matrix1, matrix2):
 def inverse_matrix(vector):
     if not isinstance(vector, np.ndarray):
         vector = np.array(vector)
-        
-    determinant = np.linalg.det(vector)
-    
-    if determinant == 0:
-        raise ValueError("Matrix cannot be inverted")
     
     result = np.linalg.inv(vector)
     
