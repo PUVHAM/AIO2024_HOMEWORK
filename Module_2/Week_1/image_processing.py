@@ -4,7 +4,7 @@ import numpy as np
 img = mpimg.imread('./Module_2/Week_1/Data/dog.jpeg')
 
 # Lightness method
-gray_img_01 = (np.max(img, axis=2) + np.min(img, axis=2))/2
+gray_img_01 = np.max(img, axis=2)/2 + np.min(img, axis=2)/2
 print(gray_img_01[0, 0])
 
 # Average method
