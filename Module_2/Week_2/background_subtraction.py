@@ -14,18 +14,19 @@ def compute_difference(bg_img, input_image):
     bg_img = bg_img.astype(float)
     input_image = input_image.astype(float)
     
-    difference_single_channel = np.abs(bg_img - input_image)
-        
+    difference_single_channel = np.mean(np.abs(bg_img - input_image), axis=2)
+    difference_single_channel = difference_single_channel.astype('uint8')
+    
     return difference_single_channel
 
 def compute_binary_mask(difference_single_channel):
     threshold = 25
-    mask = np.any(difference_single_channel > threshold, axis=2)
+    mask = difference_single_channel > threshold
     
-    difference_binary = np.zeros_like(difference_single_channel)
-    difference_binary[mask] = [255, 255, 255]  
+    difference_binary = np.zeros_like(difference_single_channel, dtype=np.uint8)
+    difference_binary[mask] = 255
+    difference_binary = np.stack((difference_binary,)*3, axis=-1)
       
-    difference_binary = difference_binary.astype(np.uint8)
     return difference_binary
 
 def replace_background(bg1_image, bg2_image, ob_image):
