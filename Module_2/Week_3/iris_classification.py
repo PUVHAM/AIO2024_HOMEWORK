@@ -4,7 +4,7 @@ import numpy as np
 # Create data
 #########################
 def create_train_data_iris():
-    data = np.loadtxt('./Module_2/Week_3/Data/iris.data.txt', delimiter=',', dtype=str)
+    data = np.loadtxt('./Module_2/Week_3/Data/iris.data.txt', delimiter=',', dtype=str) # Ensure this path is correct and points to your iris.data.txt file
     return data
 
 # This function below is used to calculate prior probability 
@@ -47,25 +47,25 @@ def train_gaussian_naive_bayes(train_data):
     # Step 2: Calculate Conditional Probability
     conditional_probability  = compute_conditional_probability_iris(train_data)
 
-    return prior_probability,conditional_probability
+    return prior_probability, conditional_probability
 
 ####################
 # Prediction
 ####################
 def prediction_iris(x,  prior_probability, conditional_probability):
-    p0=prior_probability[0]\
+    p0 = prior_probability[0]\
     *guassian_distribution(x[0], conditional_probability[0][0][0],conditional_probability[0][0][1])\
     *guassian_distribution(x[1], conditional_probability[1][0][0],conditional_probability[1][0][1])\
     *guassian_distribution(x[2], conditional_probability[2][0][0],conditional_probability[2][0][1])\
     *guassian_distribution(x[3], conditional_probability[3][0][0],conditional_probability[3][0][1])
 
-    p1=prior_probability[1]\
+    p1 = prior_probability[1]\
     *guassian_distribution(x[0], conditional_probability[0][1][0],conditional_probability[0][1][1])\
     *guassian_distribution(x[1], conditional_probability[1][1][0],conditional_probability[1][1][1])\
     *guassian_distribution(x[2], conditional_probability[2][1][0],conditional_probability[2][1][1])\
     *guassian_distribution(x[3], conditional_probability[3][1][0],conditional_probability[3][1][1])
 
-    p2=prior_probability[2]\
+    p2 = prior_probability[2]\
     *guassian_distribution(x[0], conditional_probability[0][2][0],conditional_probability[0][2][1])\
     *guassian_distribution(x[1], conditional_probability[1][2][0],conditional_probability[1][2][1])\
     *guassian_distribution(x[2], conditional_probability[2][2][0],conditional_probability[2][2][1])\
@@ -73,26 +73,26 @@ def prediction_iris(x,  prior_probability, conditional_probability):
 
     list_p = [p0, p1, p2]
 
-    return list_p.index(max(list_p))
+    return list_p.index(np.max(list_p))
 
 # Testcases
-X = [6.3 , 3.3, 6.0,  2.5]
+x = [6.3 , 3.3, 6.0,  2.5]
 train_data = create_train_data_iris()
 y_unique = np.unique(train_data[:,4])
 prior_probability, conditional_probability = train_gaussian_naive_bayes(train_data)
-pred = y_unique[prediction_iris(X, prior_probability, conditional_probability)]
+pred = y_unique[prediction_iris(x, prior_probability, conditional_probability)]
 assert pred == "Iris-virginica"
 
-X = [5.0,2.0,3.5,1.0]
+x = [5.0,2.0,3.5,1.0]
 train_data = create_train_data_iris()
 y_unique = np.unique(train_data[:,4])
 prior_probability, conditional_probability = train_gaussian_naive_bayes(train_data)
-pred = y_unique[prediction_iris(X, prior_probability, conditional_probability)]
+pred = y_unique[prediction_iris(x, prior_probability, conditional_probability)]
 assert pred == "Iris-versicolor"
 
-X = [4.9,3.1,1.5,0.1]
+x = [4.9,3.1,1.5,0.1]
 train_data = create_train_data_iris()
 y_unique = np.unique(train_data[:,4])
 prior_probability, conditional_probability = train_gaussian_naive_bayes(train_data)
-pred = y_unique[prediction_iris(X, prior_probability, conditional_probability)]
+pred = y_unique[prediction_iris(x, prior_probability, conditional_probability)]
 assert pred == "Iris-setosa"
