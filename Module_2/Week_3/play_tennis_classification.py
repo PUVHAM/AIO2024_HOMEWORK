@@ -91,25 +91,19 @@ def train_naive_bayes(train_data):
 # Prediction
 ####################
 def prediction_play_tennis(x, list_x_name, prior_probability, conditional_probability):
+    num_classes = len(prior_probability)  
+    num_features = len(x)  
     
-    x1 = get_index_from_value(x[0], list_x_name[0])
-    x2 = get_index_from_value(x[1], list_x_name[1])
-    x3 = get_index_from_value(x[2], list_x_name[2])
-    x4 = get_index_from_value(x[3], list_x_name[3])
+    list_p = []
+    for class_idx in range(num_classes):
+        p = prior_probability[class_idx]
+        for feature_idx in range(num_features):
+            x_i = get_index_from_value(x[feature_idx], list_x_name[feature_idx])
+            p *= conditional_probability[feature_idx][class_idx, x_i]
+            
+        list_p.append(p)
     
-    p0 = prior_probability[0]\
-    *conditional_probability[0][0,x1]\
-    *conditional_probability[1][0,x2]\
-    *conditional_probability[2][0,x3]\
-    *conditional_probability[3][0,x4]
-
-    p1 = prior_probability[1]\
-    *conditional_probability[0][1,x1]\
-    *conditional_probability[1][1,x2]\
-    *conditional_probability[2][1,x3]\
-    *conditional_probability[3][1,x4]
-    
-    return 0 if p0 > p1 else 1
+    return np.argmax(list_p)
 
 # Testcases
 x = ['Sunny', 'Cool', 'High', 'Strong']
