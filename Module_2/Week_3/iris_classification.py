@@ -25,16 +25,16 @@ def compute_conditional_probability_iris(train_data):
         for cols in range(0, len(y_unique)):
             mean = np.mean(train_data[:,rows][train_data[:,-1] == y_unique[cols]].astype(float)) 
             sigma = np.std(train_data[:,rows][train_data[:,-1] == y_unique[cols]].astype(float)) 
-            sigma = sigma ** 2
-            x_conditional_probability[cols] = [mean, sigma]
+            variance = sigma ** 2
+            x_conditional_probability[cols] = [mean, variance]
     
         conditional_probability.append(x_conditional_probability)
     return conditional_probability
 
 # Define the Gaussian function
-def guassian_distribution(x, mean, sigma_squared):
-    result = (1.0 / np.sqrt(2*np.pi*sigma_squared))\
-            * np.exp((-1/2)*np.power((float(x)-mean)/sigma_squared,2))
+def guassian_distribution(x, mean, variance):
+    result = (1.0 / np.sqrt(2*np.pi*variance))\
+            * np.exp(-((float(x) - mean) ** 2) / (2 * variance))
     return result
 
 ###########################
@@ -52,28 +52,21 @@ def train_gaussian_naive_bayes(train_data):
 ####################
 # Prediction
 ####################
-def prediction_iris(x,  prior_probability, conditional_probability):
-    p0 = prior_probability[0]\
-    *guassian_distribution(x[0], conditional_probability[0][0][0],conditional_probability[0][0][1])\
-    *guassian_distribution(x[1], conditional_probability[1][0][0],conditional_probability[1][0][1])\
-    *guassian_distribution(x[2], conditional_probability[2][0][0],conditional_probability[2][0][1])\
-    *guassian_distribution(x[3], conditional_probability[3][0][0],conditional_probability[3][0][1])
+def prediction_iris(x, prior_probability, conditional_probability):
+    num_classes = len(prior_probability)
+    num_features = len(x)
 
-    p1 = prior_probability[1]\
-    *guassian_distribution(x[0], conditional_probability[0][1][0],conditional_probability[0][1][1])\
-    *guassian_distribution(x[1], conditional_probability[1][1][0],conditional_probability[1][1][1])\
-    *guassian_distribution(x[2], conditional_probability[2][1][0],conditional_probability[2][1][1])\
-    *guassian_distribution(x[3], conditional_probability[3][1][0],conditional_probability[3][1][1])
-
-    p2 = prior_probability[2]\
-    *guassian_distribution(x[0], conditional_probability[0][2][0],conditional_probability[0][2][1])\
-    *guassian_distribution(x[1], conditional_probability[1][2][0],conditional_probability[1][2][1])\
-    *guassian_distribution(x[2], conditional_probability[2][2][0],conditional_probability[2][2][1])\
-    *guassian_distribution(x[3], conditional_probability[3][2][0],conditional_probability[3][2][1])
-
-    list_p = [p0, p1, p2]
-
-    return list_p.index(np.max(list_p))
+    list_p = []
+    for class_idx in range(num_classes):
+        p = prior_probability[class_idx]
+        for feature_idx in range(num_features):
+            mean = conditional_probability[feature_idx][class_idx][0]
+            variance = conditional_probability[feature_idx][class_idx][1]
+            p *= guassian_distribution(x[feature_idx], mean, variance)
+            
+        list_p.append(p)
+    
+    return list_p.index(max(list_p))
 
 # Testcases
 x = [6.3 , 3.3, 6.0,  2.5]
