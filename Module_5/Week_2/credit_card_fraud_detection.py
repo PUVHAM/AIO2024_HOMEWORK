@@ -2,7 +2,6 @@ import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
-from config import DatasetConfig
 from Module_5.Week_1.visualize import plot_figures
 from load_dataset import load_df, split_dataset
 from softmax_regression import SoftmaxRegression
