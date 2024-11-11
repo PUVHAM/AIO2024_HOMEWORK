@@ -1,10 +1,15 @@
 import numpy as np
+from config import DatasetConfig
 from base_regression import BaseRegression
 
 class LogisticRegression(BaseRegression):
     def __init__(self, x_train, y_train, x_val, y_val, model_name="Titanic"):
         super().__init__(x_train, y_train, x_val, y_val, model_name)
 
+    def _initialize_weights(self, feature_count, random_state=DatasetConfig.RANDOM_SEED):
+        rng = np.random.default_rng(random_state)
+        return rng.uniform(size=feature_count)
+    
     def _sigmoid(self, z):
         return 1 / (1 + np.exp(-z))
     
@@ -19,6 +24,11 @@ class LogisticRegression(BaseRegression):
     
     def _compute_gradient(self, x, y, y_hat):
         return np.dot(x.T, (y_hat - y)) / y.size
+    
+    def _compute_accuracy(self, x, y, theta):
+        y_hat = self._predict(x, theta).round()
+        acc = (y_hat == y).mean()
+        return acc
 
 if __name__ == "__main__":
     regression = LogisticRegression(None, None, None, None)

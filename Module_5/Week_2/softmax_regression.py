@@ -3,12 +3,17 @@ import sys
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
+from config import DatasetConfig
 from Module_5.Week_1.base_regression import BaseRegression
 
 class SoftmaxRegression(BaseRegression):
     def __init__(self, x_train, y_train, x_val, y_val, n_classes, model_name="Titanic"):
         super().__init__(x_train, y_train, x_val, y_val, model_name)
         self.n_classes = n_classes
+        
+    def _initialize_weights(self, feature_count, random_state=DatasetConfig.RANDOM_SEED):
+        rng = np.random.default_rng(random_state)
+        return rng.uniform(size=(feature_count, self.n_classes))
 
     def _softmax(self, z):
         exp_z = np.exp(z)
@@ -26,6 +31,11 @@ class SoftmaxRegression(BaseRegression):
     def _compute_gradient(self, x, y, y_hat):
         n = y.size
         return np.dot(x.T, (y_hat - y)) / n
+    
+    def _compute_accuracy(self, x, y, theta):
+        y_hat = self._predict(x, theta)
+        acc = (np.argmax(y_hat, axis=1) == np.argmax(y, axis=1)).mean()
+        return acc
     
 if __name__ == "__main__":
     regression = SoftmaxRegression(None, None, None, None, None)

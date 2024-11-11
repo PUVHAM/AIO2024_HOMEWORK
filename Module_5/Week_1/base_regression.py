@@ -1,34 +1,39 @@
 import numpy as np
+from abc import ABC, abstractmethod
 from config import ModelConfig, DatasetConfig
 
-class BaseRegression:
+class BaseRegression(ABC):
     def __init__(self, x_train, y_train, x_val, y_val, model_name="Titanic"):
         self.x_train = x_train
         self.y_train = y_train
         self.x_val = x_val
         self.y_val = y_val
         self.config = ModelConfig.model_type.get(model_name)
-            
+    
+    @abstractmethod    
     def _initialize_weights(self, feature_count, random_state=DatasetConfig.RANDOM_SEED):
-        rng = np.random.default_rng(random_state)
-        return rng.uniform(size=feature_count)
+        pass
     
+    @abstractmethod 
     def _compute_loss(self, y_hat, y):
-        raise NotImplementedError
+        pass
     
+    @abstractmethod 
     def _compute_gradient(self, x, y, y_hat):
-        raise NotImplementedError
+        pass
     
     def _update_theta(self, theta, gradient, lr):
         return theta - lr * gradient
     
+    @abstractmethod 
     def _compute_accuracy(self, x, y, theta):
         y_hat = self._predict(x, theta)
         acc = (np.argmax(y_hat, axis=1) == np.argmax(y, axis=1)).mean() if self.n_classes > 2 else (y_hat.round() == y).mean()
         return acc
 
+    @abstractmethod 
     def _predict(self, x, theta):
-        raise NotImplementedError
+        pass
 
     def train(self):
         train_accs = []
