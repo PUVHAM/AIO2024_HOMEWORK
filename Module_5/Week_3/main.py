@@ -50,7 +50,7 @@ def main():
     if task in [2, 3]:
         plot_figures(train_losses, val_losses, train_metrics, val_metrics)
     else: 
-        plot_figures(train_losses, val_losses, train_metrics, val_metrics, metric="R2")
+        plot_figures(train_losses, val_losses, train_metrics, val_metrics, score_type="R2")
 
 if __name__ == "__main__":
     main()
