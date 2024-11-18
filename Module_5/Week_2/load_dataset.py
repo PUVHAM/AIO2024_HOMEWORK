@@ -1,3 +1,5 @@
+import os
+import gdown
 import pandas as pd
 import numpy as np
 
@@ -6,10 +8,6 @@ from preprocessing import one_hot_encoding, text_normalize
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-import os
-import gdown
-from config import DatasetConfig
 
 def download_dataset(csv_name):
     dataset_ids = {
