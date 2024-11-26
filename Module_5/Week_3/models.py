@@ -1,8 +1,12 @@
+import sys
+from pathlib import Path
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from abc import ABC, abstractmethod
-from config import ModelConfig
+
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+from Module_5.Week_3.config import ModelConfig
 
 class BaseMLP(nn.Module, ABC):
     def __init__(self, input_dims, hidden_dims, output_dims, model_name):
