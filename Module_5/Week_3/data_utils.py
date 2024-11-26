@@ -8,7 +8,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 from torchvision.transforms import Resize 
 from torchvision.io import read_image
-from config import DatasetConfig
+from Module_5.Week_3.config import DatasetConfig
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
@@ -161,7 +161,6 @@ def _build_image_data_loader():
     
     classes = os.listdir(train_dir)
     label2idx = {cls: idx for idx, cls in enumerate(classes)}
-    print(label2idx)
 
     train_loader = DataLoader(
         ImageDataset(train_dir, norm=True, label2idx=label2idx, split='train'),

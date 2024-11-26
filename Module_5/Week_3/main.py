@@ -6,17 +6,19 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from config import DatasetConfig, ModelConfig
-from data_utils import load_dataset
-from models import RegressionMLP, ClassificationMLP, ImageClassificationMLP
+from Module_5.Week_3.config import DatasetConfig, ModelConfig
+from Module_5.Week_3.data_utils import load_dataset
+from Module_5.Week_3.models import RegressionMLP, ClassificationMLP, ImageClassificationMLP
 from Module_5.Week_1.visualize import plot_figures
 
-np.random.seed(DatasetConfig.RANDOM_SEED)
-torch.manual_seed(DatasetConfig.RANDOM_SEED)
-if torch.cuda.is_available():
-    torch.cuda.manual_seed(DatasetConfig.RANDOM_SEED)
+def get_seed(random_seed):
+    np.random.seed(random_seed)
+    torch.manual_seed(random_seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(random_seed)
     
 def main():
+    get_seed(DatasetConfig.RANDOM_SEED)
     task = int(input("Choose task (1: Regression, 2: Classification, 3: Image_Classification): "))
     task_name = list(DatasetConfig.DATASET_PATH.keys())[task - 1]
 
