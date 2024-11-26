@@ -32,5 +32,6 @@ class ModelConfig:
     model_type = {
         "Regression": {"LEARNING_RATE": 1e-2, "EPOCHS": 100, "HIDDEN_DIMS": 64},
         "Classification": {"LEARNING_RATE": 1e-1, "EPOCHS": 100, "HIDDEN_DIMS": 128},
-        "Image_Classification": {"LEARNING_RATE": 1e-2, "EPOCHS": 40, "HIDDEN_DIMS": 64}
+        "Image_Classification": {"LEARNING_RATE": 1e-2, "EPOCHS": 40, "HIDDEN_DIMS": 64},
+        "FashionMNIST": {"LEARNING_RATE": 0.01, "EPOCHS": 300, "HIDDEN_DIMS": 128}
     }
