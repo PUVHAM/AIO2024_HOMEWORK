@@ -1,0 +1,4 @@
+[submodule "Module_6"]
+	path = Module_6
+	url = https://github.com/PUVHAM/CNN.git
+	branch = main
